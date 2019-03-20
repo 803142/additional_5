@@ -1,31 +1,27 @@
 module.exports = function check(str, bracketsConfig) {
-  let resultStack=[],
-      openElement=0;
-   for (let i=0, lenS=str.length; i<lenS; i++){
-    for (const [x,y] of bracketsConfig){
-      const z = str[i];
-      const s = resultStack[openElement-1];
-      const condtnOne = z == y;
-      const condtnTwo = s == x;
-      const condtnThree = z == x; 
-      if (condtnOne) {
-        if (condtnTwo) {
-         resultStack.pop();
-         openElement--; 
-        } 
-        else{
-        resultStack.push(z);
-        openElement++;
+  let resultStack=[];
+  let openElement=0;
+
+  const s = resultStack[openElement-1];
+
+    for (let i=0, lenS=str.length; i<lenS; i++){
+      for (const [x,y] of bracketsConfig){
+        if (str[i] == y) {
+          if (s == x) {
+            resultStack.pop();
+            openElement--; 
+          }else {
+            resultStack.push(z);
+            openElement++;
+          }
+        }else {
+          if (str[i] == x){
+            resultStack.push(z);
+            openElement++;
+          }        
         }
       }
-     else {
-        if (condtnThree){
-          resultStack.push(z);
-          openElement++;
-        }        
-     }
     }
-  }
   
-  return !(resultStack.length>0);
+  return !(resultStack.length);
 }
